@@ -1,1 +1,1 @@
-"# seattle-places-app" 
+# seattle-places-app
