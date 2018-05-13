@@ -2,23 +2,23 @@ package me.kamili.rachid.seattleplace.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MiniVenuesResponse{
+public class VenuesResponse{
 
 	@SerializedName("response")
-	private MiniResponse response;
+	private Response response;
 
-	public void setResponse(MiniResponse response){
+	public void setResponse(Response response){
 		this.response = response;
 	}
 
-	public MiniResponse getResponse(){
+	public Response getResponse(){
 		return response;
 	}
 
 	@Override
  	public String toString(){
 		return 
-			"MiniVenuesResponse{" + 
+			"VenuesResponse{" + 
 			"response = '" + response + '\'' +
 			"}";
 		}

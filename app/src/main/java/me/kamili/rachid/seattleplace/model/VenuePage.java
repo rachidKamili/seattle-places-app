@@ -2,21 +2,10 @@ package me.kamili.rachid.seattleplace.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MiniVenue {
-
-	@SerializedName("name")
-	private String name;
+public class VenuePage{
 
 	@SerializedName("id")
 	private String id;
-
-	public void setName(String name){
-		this.name = name;
-	}
-
-	public String getName(){
-		return name;
-	}
 
 	public void setId(String id){
 		this.id = id;
@@ -29,9 +18,8 @@ public class MiniVenue {
 	@Override
  	public String toString(){
 		return 
-			"MiniVenue{" +
-			"name = '" + name + '\'' +
-			",id = '" + id + '\'' +
+			"VenuePage{" + 
+			"id = '" + id + '\'' + 
 			"}";
 		}
 }

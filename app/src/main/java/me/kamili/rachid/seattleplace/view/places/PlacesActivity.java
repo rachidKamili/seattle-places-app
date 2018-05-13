@@ -2,10 +2,13 @@ package me.kamili.rachid.seattleplace.view.places;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -14,10 +17,13 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import me.kamili.rachid.seattleplace.R;
 import me.kamili.rachid.seattleplace.injection.component.DaggerPlacesComponent;
 import me.kamili.rachid.seattleplace.injection.module.PlacesModule;
+import me.kamili.rachid.seattleplace.model.Venue;
 import me.kamili.rachid.seattleplace.view.base.BaseActivity;
+import me.kamili.rachid.seattleplace.view.places.adapter.PlacesAdapter;
 
 public class PlacesActivity extends BaseActivity implements PlacesView {
 
@@ -26,6 +32,10 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
 
     @BindView(R.id.search_autocomplete)
     AutoCompleteTextView mSearchAutoComplete;
+
+    @BindView(R.id.rvPlaceList)
+    RecyclerView mRecyclerView;
+    private PlacesAdapter mAdapter;
 
     private List<String> mSearchList = new ArrayList<>();
     private ArrayAdapter<String> mAutoCompleteAdapter;
@@ -46,6 +56,7 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
     @Override
     protected void onActivityReady(Bundle savedInstanceState, Intent intent) {
         initiateAutocomplete();
+        initiateRecyclerView();
     }
 
     private void initiateAutocomplete() {
@@ -81,6 +92,20 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
         );
     }
 
+    private void initiateRecyclerView() {
+        mRecyclerView.setHasFixedSize(true);
+
+        // using a linear layout manager
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify the adapter
+        mAdapter = new PlacesAdapter(getLayoutInflater());
+        mAdapter.setPlaceClickListener(mPlaceClickListener);
+        mAdapter.setFavoritePlaceClickListener(mFavPlaceClickListener);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     @Override
     public void onSuggestionsLoaded(List<String> suggestions) {
         mAutoCompleteAdapter.addAll(suggestions);
@@ -90,8 +115,23 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
 
     //Clear suggestion list
     @Override
-    public void onClearItems() {
+    public void onClearSuggestions() {
         mAutoCompleteAdapter.clear();
+    }
+
+    @Override
+    public void onPlacesLoaded(List<Venue> venueList) {
+        mAdapter.addPlaces(venueList);
+    }
+
+    @Override
+    public void onClearPlaces() {
+        mAdapter.clearPlaces();
+    }
+
+    @OnClick(R.id.search_btn)
+    public void onPlacesSearch(Button button) {
+        mPresenter.getPlaces(mSearchAutoComplete.getText().toString());
     }
 
     @Override
@@ -109,4 +149,32 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
         Toast.makeText(PlacesActivity.this, message
                 , Toast.LENGTH_SHORT).show();
     }
+
+
+    private PlacesAdapter.OnPlaceClickListener mPlaceClickListener = (place, position) -> {
+
+        System.out.println(123);
+        /*Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent.putExtra(DetailActivity.CAKE, cake);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, v, "cakeImageAnimation");
+            startActivity(intent, options.toBundle());
+        } else {
+            startActivity(intent);
+        }*/
+    };
+
+    private PlacesAdapter.OnFavoritePlaceClickListener mFavPlaceClickListener = new PlacesAdapter.OnFavoritePlaceClickListener() {
+        @Override
+        public void onFavoritePlaceClick(Venue place) {
+            mPresenter.handleFavEvent(place);
+        }
+
+        @Override
+        public List<String> getFavoritePlace() {
+            return mPresenter.getFavPlacesIds();
+        }
+    };
+
 }

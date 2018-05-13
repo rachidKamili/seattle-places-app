@@ -7,9 +7,6 @@ public class LabeledLatLng {
 	@SerializedName("lng")
 	private double lng;
 
-	@SerializedName("label")
-	private String label;
-
 	@SerializedName("lat")
 	private double lat;
 
@@ -19,14 +16,6 @@ public class LabeledLatLng {
 
 	public double getLng(){
 		return lng;
-	}
-
-	public void setLabel(String label){
-		this.label = label;
-	}
-
-	public String getLabel(){
-		return label;
 	}
 
 	public void setLat(double lat){
@@ -42,8 +31,7 @@ public class LabeledLatLng {
 		return 
 			"LabeledLatLng{" +
 			"lng = '" + lng + '\'' + 
-			",label = '" + label + '\'' + 
-			",lat = '" + lat + '\'' + 
+			",lat = '" + lat + '\'' +
 			"}";
 		}
 }

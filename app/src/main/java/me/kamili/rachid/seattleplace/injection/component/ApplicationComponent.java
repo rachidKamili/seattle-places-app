@@ -1,6 +1,7 @@
 package me.kamili.rachid.seattleplace.injection.component;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
@@ -13,6 +14,8 @@ import retrofit2.Retrofit;
 public interface ApplicationComponent {
 
     Retrofit exposeRetrofit();
+
+    SharedPreferences exposeSharedPreferences();
 
     Context exposeContext();
 }

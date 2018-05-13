@@ -1,6 +1,7 @@
 package me.kamili.rachid.seattleplace.injection.module;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import javax.inject.Singleton;
 
@@ -17,11 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApplicationModule {
 
     private String mBaseUrl;
+    private String mFileName;
     private Context mContext;
 
-    public ApplicationModule(Context context, String baseUrl) {
+    public ApplicationModule(Context context, String baseUrl, String fileName) {
         mContext = context;
         mBaseUrl = baseUrl;
+        mFileName = fileName;
     }
 
     @Singleton
@@ -32,13 +35,13 @@ public class ApplicationModule {
 
     @Singleton
     @Provides
-    HeaderInterceptor provideHeaderInterceptor(){
+    HeaderInterceptor provideHeaderInterceptor() {
         return new HeaderInterceptor();
     }
 
     @Singleton
     @Provides
-    HttpLoggingInterceptor provideHttpLoggingInterceptor(){
+    HttpLoggingInterceptor provideHttpLoggingInterceptor() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
         return logging;
@@ -76,4 +79,9 @@ public class ApplicationModule {
         return mContext;
     }
 
+    @Provides
+    @Singleton
+    SharedPreferences provideSharedPreferences(Context context) {
+        return context.getSharedPreferences(mFileName, Context.MODE_PRIVATE);
+    }
 }

@@ -9,6 +9,7 @@ import me.kamili.rachid.seattleplace.injection.module.ApplicationModule;
 public class SeattleApplication extends Application {
 
     private static final String BASE_URL = "https://api.foursquare.com";
+    private static final String FILE_NAME = "app.seattle.favorites";
 
     private ApplicationComponent mApplicationComponent;
 
@@ -21,7 +22,7 @@ public class SeattleApplication extends Application {
     private void initializeApplicationComponent() {
         mApplicationComponent = DaggerApplicationComponent
                 .builder()
-                .applicationModule(new ApplicationModule(this, BASE_URL))
+                .applicationModule(new ApplicationModule(this, BASE_URL, FILE_NAME))
                 .build();
     }
 

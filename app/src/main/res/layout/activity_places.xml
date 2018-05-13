@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.places.PlacesActivity">
 
+    <Button
+        android:id="@+id/search_btn"
+        android:layout_width="@dimen/search_btn_dim"
+        android:layout_height="@dimen/search_btn_dim"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/def_margin"
+        android:background="@drawable/ic_search"
+        android:padding="@dimen/def_margin" />
+
     <AutoCompleteTextView
         android:id="@+id/search_autocomplete"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/def_margin"
+        android:hint="@string/autocomplete_hint"
+        android:inputType="text"
+        android:maxLines="1" />
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvPlaceList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/search_btn"
+        android:layout_margin="@dimen/def_margin"
+        android:scrollbars="vertical" />
+
+</RelativeLayout>

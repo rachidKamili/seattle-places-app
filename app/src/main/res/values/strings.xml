@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Seattle Place</string>
+    <string name="autocomplete_hint">Search a place</string>
 </resources>
