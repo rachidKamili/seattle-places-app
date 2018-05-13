@@ -26,6 +26,7 @@ public class Venue implements Parcelable{
 
 	protected Venue(Parcel in) {
 		name = in.readString();
+		location = in.readParcelable(Location.class.getClassLoader());
 		id = in.readString();
 		url = in.readString();
 		categories = in.createTypedArrayList(Category.CREATOR);
@@ -103,6 +104,7 @@ public class Venue implements Parcelable{
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(name);
+		dest.writeParcelable(location, flags);
 		dest.writeString(id);
 		dest.writeString(url);
 		dest.writeTypedList(categories);

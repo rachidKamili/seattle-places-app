@@ -1,10 +1,13 @@
 package me.kamili.rachid.seattleplace.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Location{
+public class Location implements Parcelable{
 
 	@SerializedName("cc")
 	private String cc;
@@ -41,6 +44,33 @@ public class Location{
 
 	@SerializedName("lat")
 	private double lat;
+
+	protected Location(Parcel in) {
+		cc = in.readString();
+		country = in.readString();
+		address = in.readString();
+		labeledLatLngs = in.createTypedArrayList(LabeledLatLng.CREATOR);
+		lng = in.readDouble();
+		distance = in.readInt();
+		formattedAddress = in.createStringArrayList();
+		city = in.readString();
+		postalCode = in.readString();
+		state = in.readString();
+		crossStreet = in.readString();
+		lat = in.readDouble();
+	}
+
+	public static final Creator<Location> CREATOR = new Creator<Location>() {
+		@Override
+		public Location createFromParcel(Parcel in) {
+			return new Location(in);
+		}
+
+		@Override
+		public Location[] newArray(int size) {
+			return new Location[size];
+		}
+	};
 
 	public void setCc(String cc){
 		this.cc = cc;
@@ -156,4 +186,25 @@ public class Location{
 			",lat = '" + lat + '\'' + 
 			"}";
 		}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(cc);
+		dest.writeString(country);
+		dest.writeString(address);
+		dest.writeTypedList(labeledLatLngs);
+		dest.writeDouble(lng);
+		dest.writeInt(distance);
+		dest.writeStringList(formattedAddress);
+		dest.writeString(city);
+		dest.writeString(postalCode);
+		dest.writeString(state);
+		dest.writeString(crossStreet);
+		dest.writeDouble(lat);
+	}
 }
