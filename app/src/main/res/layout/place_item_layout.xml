@@ -12,7 +12,9 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="6dp"
         app:cardUseCompatPadding="true"
-        app:contentPadding="@dimen/card_dim">
+        app:contentPadding="@dimen/card_dim"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground" >
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -79,6 +81,6 @@
         android:clickable="true"
         app:backgroundTint="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/cv"
-        app:layout_constraintEnd_toEndOf="@+id/cv" />
+        app:layout_constraintEnd_toEndOf="@+id/cv"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -1,10 +1,19 @@
 package me.kamili.rachid.seattleplace.utils;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.text.DecimalFormat;
@@ -40,8 +49,21 @@ public class GeoUtils {
     }
 
     //Add a marker to the map
-    public static void addLatLngToMap(GoogleMap map, LatLng latLng, String title){
-        map.addMarker(new MarkerOptions().position(latLng).title( title )).showInfoWindow();
+    public static Marker addLatLngToMap(Context context, GoogleMap map, LatLng latLng, String title,@DrawableRes int markerVector){
+        return map.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .icon(bitmapDescriptorFromVector(context,markerVector)));
+    }
+
+    //decode the image to Bitmap - 100x100px
+    private static BitmapDescriptor bitmapDescriptorFromVector(Context context,@DrawableRes int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, 100, 100);
+        Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
     public static LatLngBounds getBoundsFromLocations(List<LatLng> list){

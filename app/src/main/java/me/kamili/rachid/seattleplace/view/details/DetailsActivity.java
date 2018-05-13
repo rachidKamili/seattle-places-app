@@ -11,6 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -120,14 +121,16 @@ public class DetailsActivity extends BaseActivity implements DetailsView, OnMapR
         // Add a marker in the center of Seattle and move the camera
         LatLng seattle = GeoUtils.getCenterSeattleLocation();
         listLocations.add(seattle);
-        GeoUtils.addLatLngToMap(mMap, seattle, "Seattle center");
+        GeoUtils.addLatLngToMap(this, mMap, seattle, "Seattle center", R.drawable.ic_marker);
 
         // Add the venue marker
         LatLng locationVenue = new LatLng(
                 mPlace.getLocation().getLat(), mPlace.getLocation().getLng()
         );
         listLocations.add(locationVenue);
-        GeoUtils.addLatLngToMap(mMap, locationVenue, mPlace.getName());
+        GeoUtils.addLatLngToMap(this, mMap, locationVenue, mPlace.getName(), R.drawable.ic_marker)
+                .showInfoWindow()
+        ;
 
         // Get bounds from existing markers
         LatLngBounds bounds = GeoUtils.getBoundsFromLocations(listLocations);

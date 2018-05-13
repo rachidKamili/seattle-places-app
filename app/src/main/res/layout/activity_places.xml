@@ -6,13 +6,13 @@
     tools:context=".view.places.PlacesActivity">
 
     <Button
+
         android:id="@+id/search_btn"
         android:layout_width="@dimen/search_btn_dim"
         android:layout_height="@dimen/search_btn_dim"
         android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/def_margin"
-        android:background="@drawable/ic_search"
-        android:padding="@dimen/def_margin" />
+        android:layout_margin="15dp"
+        android:background="@drawable/ic_search"/>
 
     <AutoCompleteTextView
         android:text="coffee"

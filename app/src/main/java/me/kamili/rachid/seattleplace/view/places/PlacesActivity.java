@@ -1,11 +1,14 @@
 package me.kamili.rachid.seattleplace.view.places;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -131,7 +134,18 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
 
     @OnClick(R.id.search_btn)
     public void onPlacesSearch(Button button) {
+        hideKeyboard();
         mPresenter.getPlaces(mSearchAutoComplete.getText().toString());
+    }
+
+    public void hideKeyboard(){
+        View view = getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm != null) {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        }
     }
 
     @Override
