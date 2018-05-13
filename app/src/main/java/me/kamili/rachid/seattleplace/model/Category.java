@@ -1,8 +1,11 @@
 package me.kamili.rachid.seattleplace.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Category {
+public class Category implements Parcelable {
 
 	@SerializedName("pluralName")
 	private String pluralName;
@@ -21,6 +24,26 @@ public class Category {
 
 	@SerializedName("primary")
 	private boolean primary;
+
+	protected Category(Parcel in) {
+		pluralName = in.readString();
+		name = in.readString();
+		id = in.readString();
+		shortName = in.readString();
+		primary = in.readByte() != 0;
+	}
+
+	public static final Creator<Category> CREATOR = new Creator<Category>() {
+		@Override
+		public Category createFromParcel(Parcel in) {
+			return new Category(in);
+		}
+
+		@Override
+		public Category[] newArray(int size) {
+			return new Category[size];
+		}
+	};
 
 	public void setPluralName(String pluralName){
 		this.pluralName = pluralName;
@@ -82,4 +105,18 @@ public class Category {
 			",primary = '" + primary + '\'' + 
 			"}";
 		}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(pluralName);
+		dest.writeString(name);
+		dest.writeString(id);
+		dest.writeString(shortName);
+		dest.writeByte((byte) (primary ? 1 : 0));
+	}
 }

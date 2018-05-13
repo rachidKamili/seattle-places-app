@@ -23,6 +23,7 @@ import me.kamili.rachid.seattleplace.injection.component.DaggerPlacesComponent;
 import me.kamili.rachid.seattleplace.injection.module.PlacesModule;
 import me.kamili.rachid.seattleplace.model.Venue;
 import me.kamili.rachid.seattleplace.view.base.BaseActivity;
+import me.kamili.rachid.seattleplace.view.details.DetailsActivity;
 import me.kamili.rachid.seattleplace.view.places.adapter.PlacesAdapter;
 
 public class PlacesActivity extends BaseActivity implements PlacesView {
@@ -85,10 +86,9 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
         });
 
         mSearchAutoComplete.setOnItemClickListener(
-                (adapterView, view, position, id) -> Toast.makeText(
-                        PlacesActivity.this,
-                        "Clicked item " + adapterView.getItemAtPosition(position)
-                        , Toast.LENGTH_SHORT).show()
+                (adapterView, view, position, id) -> mPresenter.getPlaces(
+                        adapterView.getItemAtPosition(position).toString()
+                )
         );
     }
 
@@ -150,19 +150,14 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
                 , Toast.LENGTH_SHORT).show();
     }
 
+    private void goToDetailsActivity(Venue place){
+        Intent intent = new Intent(PlacesActivity.this, DetailsActivity.class);
+        intent.putExtra(DetailsActivity.PLACE, place);
+        startActivity(intent);
+    }
 
     private PlacesAdapter.OnPlaceClickListener mPlaceClickListener = (place, position) -> {
-
-        System.out.println(123);
-        /*Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        intent.putExtra(DetailActivity.CAKE, cake);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, v, "cakeImageAnimation");
-            startActivity(intent, options.toBundle());
-        } else {
-            startActivity(intent);
-        }*/
+        goToDetailsActivity(place);
     };
 
     private PlacesAdapter.OnFavoritePlaceClickListener mFavPlaceClickListener = new PlacesAdapter.OnFavoritePlaceClickListener() {
@@ -177,4 +172,10 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
         }
     };
 
+    //To update the favorite icon
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAdapter.notifyDataSetChanged();
+    }
 }

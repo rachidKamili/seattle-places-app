@@ -1,8 +1,5 @@
 package me.kamili.rachid.seattleplace.injection.module;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -15,16 +12,12 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
-public class ApplicationModule {
+public class NetworkModule {
 
     private String mBaseUrl;
-    private String mFileName;
-    private Context mContext;
 
-    public ApplicationModule(Context context, String baseUrl, String fileName) {
-        mContext = context;
-        mBaseUrl = baseUrl;
-        mFileName = fileName;
+    public NetworkModule(String mBaseUrl) {
+        this.mBaseUrl = mBaseUrl;
     }
 
     @Singleton
@@ -71,17 +64,5 @@ public class ApplicationModule {
                 .addCallAdapterFactory(adapterFactory)
                 .client(client)
                 .build();
-    }
-
-    @Provides
-    @Singleton
-    Context provideContext() {
-        return mContext;
-    }
-
-    @Provides
-    @Singleton
-    SharedPreferences provideSharedPreferences(Context context) {
-        return context.getSharedPreferences(mFileName, Context.MODE_PRIVATE);
     }
 }

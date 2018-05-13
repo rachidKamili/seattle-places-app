@@ -1,10 +1,13 @@
 package me.kamili.rachid.seattleplace.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Venue {
+public class Venue implements Parcelable{
 
 	@SerializedName("name")
 	private String name;
@@ -20,6 +23,25 @@ public class Venue {
 
 	@SerializedName("categories")
 	private List<Category> categories;
+
+	protected Venue(Parcel in) {
+		name = in.readString();
+		id = in.readString();
+		url = in.readString();
+		categories = in.createTypedArrayList(Category.CREATOR);
+	}
+
+	public static final Creator<Venue> CREATOR = new Creator<Venue>() {
+		@Override
+		public Venue createFromParcel(Parcel in) {
+			return new Venue(in);
+		}
+
+		@Override
+		public Venue[] newArray(int size) {
+			return new Venue[size];
+		}
+	};
 
 	public String getUrl() {
 		return url;
@@ -72,4 +94,17 @@ public class Venue {
 			",categories = '" + categories + '\'' +
 			"}";
 		}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(name);
+		dest.writeString(id);
+		dest.writeString(url);
+		dest.writeTypedList(categories);
+	}
 }

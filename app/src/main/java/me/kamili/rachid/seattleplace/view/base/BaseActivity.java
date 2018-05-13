@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import me.kamili.rachid.seattleplace.SeattleApplication;
+import me.kamili.rachid.seattleplace.application.SeattleApplication;
 import me.kamili.rachid.seattleplace.injection.component.ApplicationComponent;
 
 public abstract class BaseActivity extends AppCompatActivity {
