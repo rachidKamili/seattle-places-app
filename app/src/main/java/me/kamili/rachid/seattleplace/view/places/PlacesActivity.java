@@ -3,6 +3,7 @@ package me.kamili.rachid.seattleplace.view.places;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -39,6 +40,10 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
 
     @BindView(R.id.rvPlaceList)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.pins_btn)
+    FloatingActionButton pinsBtn;
+
     private PlacesAdapter mAdapter;
 
     private List<String> mSearchList = new ArrayList<>();
@@ -132,10 +137,25 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
         mAdapter.clearPlaces();
     }
 
+    @Override
+    public void onHidePinFab() {
+        pinsBtn.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onShowPinFab() {
+        pinsBtn.setVisibility(View.VISIBLE);
+    }
+
     @OnClick(R.id.search_btn)
     public void onPlacesSearch(Button button) {
         hideKeyboard();
         mPresenter.getPlaces(mSearchAutoComplete.getText().toString());
+    }
+
+    @OnClick(R.id.pins_btn)
+    public void onStartPinsClick(FloatingActionButton button){
+
     }
 
     public void hideKeyboard(){

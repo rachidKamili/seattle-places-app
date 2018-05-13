@@ -14,4 +14,8 @@ public interface PlacesView extends BaseView {
     void onPlacesLoaded(List<Venue> venueList);
 
     void onClearPlaces();
+
+    void onHidePinFab();
+
+    void onShowPinFab();
 }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.places.PlacesActivity">
 
     <Button
@@ -34,5 +35,20 @@
         android:layout_below="@+id/search_btn"
         android:layout_margin="@dimen/def_margin"
         android:scrollbars="vertical" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:visibility="gone"
+        android:id="@+id/pins_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|end"
+        android:clickable="true"
+        app:rippleColor="@android:color/white"
+        android:layout_margin="@dimen/def_margin"
+        android:src="@drawable/ic_map"
+        />
 
 </RelativeLayout>

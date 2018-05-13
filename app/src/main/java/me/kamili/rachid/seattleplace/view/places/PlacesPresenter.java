@@ -149,8 +149,10 @@ public class PlacesPresenter extends BasePresenter<PlacesView> {
             getView().onClearPlaces();
             if (venues.size() > 0) {
                 getView().onPlacesLoaded(venues);
+                getView().onShowPinFab();
             } else {
                 getView().onShowToast("No results for this search");
+                getView().onHidePinFab();
             }
         }
 
