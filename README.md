@@ -1,6 +1,5 @@
 # Seattle Places app
 
-One Paragraph of project description goes here
 Search for places in Seattle, Washington using the [Foursquare API](https://developer.foursquare.com/places-api).
 
 ## Preview
@@ -17,7 +16,7 @@ Search for places in Seattle, Washington using the [Foursquare API](https://deve
 * ButterKnife
 
 ### HTTP client
-* Retrofit2 -> RxJava2 + RxJava
+* Retrofit2 -> RxJava2 + RxAndroid
 * OkHttp
 
 ### Converter
