@@ -7,4 +7,5 @@
     <string name="title_activity_map_pins">Searched Pins</string>
     <string name="website_title">Website:</string>
     <string name="description_title">Description :</string>
+    <string name="address_txt">Address :</string>
 </resources>

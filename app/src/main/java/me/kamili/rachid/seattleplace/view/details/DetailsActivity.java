@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -64,7 +65,8 @@ public class DetailsActivity extends BaseActivity implements DetailsView, OnMapR
     TextView vanueUrl;
     @BindView(R.id.vanue_description)
     TextView vanueDescription;
-
+    @BindView(R.id.vanue_address)
+    TextView vanueAddress;
 
     @Inject
     protected DetailsPresenter mPresenter;
@@ -125,14 +127,18 @@ public class DetailsActivity extends BaseActivity implements DetailsView, OnMapR
     @Override
     public void setVenueDetails(Venue venue) {
         //Photo
-        Glide.with(this)
-                .load(getBestPhotoUrl(venue.getBestPhoto()))
-                .into(bestPhoto);
+        if (venue.getBestPhoto() != null) {
+            Glide.with(this)
+                    .load(getBestPhotoUrl(venue.getBestPhoto()))
+                    .into(bestPhoto);
+        }
 
         //Category icon
-        Glide.with(this)
-                .load(getCategoryUrlFromIcon(venue.getCategories().get(0).getIcon()))
-                .into(categoryIcon);
+        if (venue.getCategories().get(0).getIcon() != null) {
+            Glide.with(this)
+                    .load(getCategoryUrlFromIcon(venue.getCategories().get(0).getIcon()))
+                    .into(categoryIcon);
+        }
 
         //Category name
         categoryName.setText(venue.getCategories().get(0).getName());
@@ -145,6 +151,9 @@ public class DetailsActivity extends BaseActivity implements DetailsView, OnMapR
             vanueUrl.setText(venue.getUrl());
         }else
             vanueUrl.setText(venue.getCanonicalUrl());
+
+        //Address
+        vanueAddress.setText(TextUtils.join("\n", venue.getLocation().getFormattedAddress()));
 
         //Description
         if (venue.getDescription() != null) {

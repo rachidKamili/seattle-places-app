@@ -38,7 +38,7 @@ public class PlacesPresenter extends BasePresenter<PlacesView> {
     @Inject
     public PlacesPresenter(SharedPreferences mSharedPreferences) {
         this.mSharedPreferences = mSharedPreferences;
-        favIds = new ArrayList<>( getFavPlacesIds() );
+        favIds = new ArrayList<>(getFavPlacesIds());
     }
 
     //Get suggestions only if there is more than 2 chars and clear the list if not
@@ -68,7 +68,14 @@ public class PlacesPresenter extends BasePresenter<PlacesView> {
     }
 
     //Get venues from api
-    public void getPlaces(String query){
+    public void getPlaces(String query) {
+
+        if (query.trim().length() < 3) {
+            getView().onShowToast("Not enough...");
+            getView().onHidePinFab();
+            getView().onClearPlaces();
+            return;
+        }
 
         getView().onShowDialog("Loading....");
         //Cancel the previous call if exists
@@ -89,7 +96,7 @@ public class PlacesPresenter extends BasePresenter<PlacesView> {
     }
 
     //return a list of ids of favorite places
-    public List<String> getFavPlacesIds(){
+    public List<String> getFavPlacesIds() {
         String listString = mSharedPreferences.getString(LIST_FAV_IDS, "");
         return Arrays.asList(listString.trim().split(","));
     }
@@ -106,7 +113,7 @@ public class PlacesPresenter extends BasePresenter<PlacesView> {
         editor.apply();
     }
 
-    class SuggestionObserver implements Observer<List<String>>{
+    class SuggestionObserver implements Observer<List<String>> {
 
         //Display loaded dropdown items if exists, if not show Toast
         @Override
@@ -136,7 +143,7 @@ public class PlacesPresenter extends BasePresenter<PlacesView> {
         }
     }
 
-    class PlacesObserver implements Observer<List<Venue>>{
+    class PlacesObserver implements Observer<List<Venue>> {
 
         @Override
         public void onSubscribe(Disposable d) {
