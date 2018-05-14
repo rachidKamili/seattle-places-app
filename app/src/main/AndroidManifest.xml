@@ -4,8 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <application
         android:name=".application.SeattleApplication"
         android:allowBackup="true"
@@ -23,10 +21,18 @@
         </activity>
         <activity
             android:name=".view.details.DetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.map_pins.MapPinsActivity"
+            android:label="@string/title_activity_map_pins"
+            android:parentActivityName=".view.places.PlacesActivity"/>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".view.places.PlacesActivity" />
     </application>
 
 </manifest>

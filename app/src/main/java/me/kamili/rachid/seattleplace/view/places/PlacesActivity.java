@@ -22,6 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.kamili.rachid.seattleplace.view.map_pins.MapPinsActivity;
 import me.kamili.rachid.seattleplace.R;
 import me.kamili.rachid.seattleplace.injection.component.DaggerPlacesComponent;
 import me.kamili.rachid.seattleplace.injection.module.PlacesModule;
@@ -155,7 +156,9 @@ public class PlacesActivity extends BaseActivity implements PlacesView {
 
     @OnClick(R.id.pins_btn)
     public void onStartPinsClick(FloatingActionButton button){
-
+        Intent intent = new Intent(PlacesActivity.this, MapPinsActivity.class);
+        intent.putParcelableArrayListExtra(MapPinsActivity.PLACES, (ArrayList<Venue>) mAdapter.getAllPlaces());
+        startActivity(intent);
     }
 
     public void hideKeyboard(){

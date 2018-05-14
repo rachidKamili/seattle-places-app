@@ -62,6 +62,10 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.Holder> {
         notifyDataSetChanged();
     }
 
+    public List<Venue> getAllPlaces() {
+        return mPlacesList;
+    }
+
     public void setPlaceClickListener(OnPlaceClickListener listener) {
         mPlaceClickListener = listener;
     }
@@ -76,8 +80,9 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.Holder> {
     }
 
     public interface OnFavoritePlaceClickListener {
-        //Fav btn in the list clicked
+        //Fav btn in the list is clicked
         void onFavoritePlaceClick(Venue place);
+
         List<String> getFavoritePlace();
     }
 
