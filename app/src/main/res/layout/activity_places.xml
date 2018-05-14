@@ -16,7 +16,6 @@
         android:background="@drawable/ic_search"/>
 
     <AutoCompleteTextView
-        android:text="coffee"
         android:id="@+id/search_autocomplete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

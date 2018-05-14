@@ -8,10 +8,83 @@
     tools:context=".view.details.DetailsActivity"
     tools:showIn="@layout/activity_details">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="data" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/def_margin">
+
+        <ImageView
+            android:id="@+id/vanue_best_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"/>
+
+        <ImageView
+            android:id="@+id/vanue_category_icon"
+            android:layout_width="@dimen/details_cat"
+            android:layout_height="@dimen/details_cat"
+            android:layout_below="@+id/vanue_best_photo"
+            android:layout_marginTop="@dimen/def_margin"/>
+
+        <TextView
+            android:id="@+id/vanue_category_name"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/details_cat"
+            android:layout_below="@+id/vanue_best_photo"
+            android:layout_margin="@dimen/def_margin"
+            android:layout_toEndOf="@+id/vanue_category_icon"
+            android:gravity="center_vertical"
+            android:textSize="18sp" />
+
+        <RatingBar
+            android:id="@+id/vanue_rating"
+            style="?android:attr/ratingBarStyleIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/vanue_best_photo"
+            android:layout_marginTop="@dimen/def_margin"
+            android:rating="5" />
+
+        <TextView
+            android:id="@+id/txtUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vanue_rating"
+            android:layout_marginTop="@dimen/def_margin"
+            android:text="@string/website_title"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/vanue_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/vanue_rating"
+            android:layout_margin="@dimen/def_margin"
+            android:layout_toEndOf="@+id/txtUrl"
+            android:autoLink="web"/>
+
+        <TextView
+            android:id="@+id/txtDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vanue_url"
+            android:text="@string/description_title"
+            android:textAllCaps="true"
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/vanue_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtDesc"
+            android:padding="@dimen/def_margin"
+            android:textColor="@android:color/black" />
+
+    </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>

@@ -24,7 +24,7 @@ import me.kamili.rachid.seattleplace.view.base.BasePresenter;
 
 public class MapPinsPresenter extends BasePresenter<MapPinsView> {
 
-    Context mContext;
+    private Context mContext;
 
     @Inject
     public MapPinsPresenter(Context context) {

@@ -78,8 +78,8 @@ public class PlacesPresenter extends BasePresenter<PlacesView> {
             mPlacesObservable = null;
         }
 
-        //Create the request with 10 maximum venues
-        mPlacesObservable = mApiService.getPlaces(10, query.trim());
+        //Create the request with 15 maximum venues
+        mPlacesObservable = mApiService.getPlaces(15, query.trim());
 
         //Subscribe and map the results to a list of string
         subscribe(mPlacesObservable, new PlacesObserver(),

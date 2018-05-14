@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
@@ -22,10 +25,14 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.kamili.rachid.seattleplace.R;
 import me.kamili.rachid.seattleplace.injection.component.DaggerDetailsComponent;
 import me.kamili.rachid.seattleplace.injection.module.DetailsModule;
+import me.kamili.rachid.seattleplace.model.BestPhoto;
+import me.kamili.rachid.seattleplace.model.Category;
+import me.kamili.rachid.seattleplace.model.Icon;
 import me.kamili.rachid.seattleplace.model.Venue;
 import me.kamili.rachid.seattleplace.utils.GeoUtils;
 import me.kamili.rachid.seattleplace.view.base.BaseActivity;
@@ -43,9 +50,21 @@ public class DetailsActivity extends BaseActivity implements DetailsView, OnMapR
     //to get the height and width
     @BindView(R.id.app_bar)
     AppBarLayout appBarLayout;
-
     @BindView(R.id.fab_favorite)
     FloatingActionButton btnFav;
+    @BindView(R.id.vanue_best_photo)
+    ImageView bestPhoto;
+    @BindView(R.id.vanue_category_icon)
+    ImageView categoryIcon;
+    @BindView(R.id.vanue_category_name)
+    TextView categoryName;
+    @BindView(R.id.vanue_rating)
+    RatingBar vanueRating;
+    @BindView(R.id.vanue_url)
+    TextView vanueUrl;
+    @BindView(R.id.vanue_description)
+    TextView vanueDescription;
+
 
     @Inject
     protected DetailsPresenter mPresenter;
@@ -73,17 +92,23 @@ public class DetailsActivity extends BaseActivity implements DetailsView, OnMapR
 
         mPlace = intent.getParcelableExtra(PLACE);
         if (mPlace != null) {
+
+            //init the img for the favorite btn
             mPresenter.setImageToBtn(mPlace.getId());
+
+            //Set the venue name to the toolbar's title
             getSupportActionBar().setTitle(mPlace.getName());
 
             SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.toolbar_map);
             mapFragment.getMapAsync(this);
+
+            mPresenter.getVenueDetails(mPlace.getId());
         }
     }
 
     @OnClick(R.id.fab_favorite)
-    public void onClickFavoritePlace(FloatingActionButton button){
+    public void onClickFavoritePlace(FloatingActionButton button) {
         mPresenter.handleFavEvent(mPlace);
     }
 
@@ -95,6 +120,47 @@ public class DetailsActivity extends BaseActivity implements DetailsView, OnMapR
     @Override
     public void setFavoriteImageUnChecked() {
         btnFav.setImageResource(R.drawable.ic_favorite_grey);
+    }
+
+    @Override
+    public void setVenueDetails(Venue venue) {
+        //Photo
+        Glide.with(this)
+                .load(getBestPhotoUrl(venue.getBestPhoto()))
+                .into(bestPhoto);
+
+        //Category icon
+        Glide.with(this)
+                .load(getCategoryUrlFromIcon(venue.getCategories().get(0).getIcon()))
+                .into(categoryIcon);
+
+        //Category name
+        categoryName.setText(venue.getCategories().get(0).getName());
+
+        //Rating
+        vanueRating.setRating((float) (venue.getRating()/2.0));
+
+        //Url
+        if (venue.getUrl() != null) {
+            vanueUrl.setText(venue.getUrl());
+        }else
+            vanueUrl.setText(venue.getCanonicalUrl());
+
+        //Description
+        if (venue.getDescription() != null) {
+            vanueDescription.setText(venue.getDescription());
+        }else
+            vanueDescription.setText("There is no description at this time");
+    }
+
+    private String getBestPhotoUrl(BestPhoto bestPhoto){
+        return  bestPhoto.getPrefix() +
+                bestPhoto.getWidth() + "x" + bestPhoto.getHeight() +
+                bestPhoto.getSuffix();
+    }
+
+    private String getCategoryUrlFromIcon(Icon icon) {
+        return icon.getPrefix() + "bg_88" + icon.getSuffix();
     }
 
     @Override
@@ -135,26 +201,36 @@ public class DetailsActivity extends BaseActivity implements DetailsView, OnMapR
         // Get bounds from existing markers
         LatLngBounds bounds = GeoUtils.getBoundsFromLocations(listLocations);
 
-        int width = appBarLayout.getWidth();
-        int height = appBarLayout.getHeight();
-        // offset from edges of the map 30% of the collapsing toolbar
-        int padding = (int) (width * 0.3);
+        //To prevent bugs
+        mMap.setOnMapLoadedCallback(() -> {
+            int width = appBarLayout.getWidth();
+            int height = appBarLayout.getHeight();
+            // offset from edges of the map 30% of the collapsing toolbar
+            int padding = (int) (width * 0.3);
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding));
+        });
     }
 
     @Override
     public void onShowDialog(String message) {
-
+        showDialog(message);
     }
 
     @Override
     public void onHideDialog() {
-
+        hideDialog();
     }
 
     @Override
     public void onShowToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

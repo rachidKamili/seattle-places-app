@@ -5,4 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps_test">Map</string>
     <string name="title_activity_map_pins">Searched Pins</string>
+    <string name="website_title">Website:</string>
+    <string name="description_title">Description :</string>
 </resources>
